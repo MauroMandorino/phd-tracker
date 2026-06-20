@@ -184,6 +184,10 @@ input[type=checkbox]{width:auto;cursor:pointer}
   <div class="modal">
     <div class="modal-title"><i class="ti ti-presentation" style="font-size:18px;vertical-align:-3px;margin-right:6px"></i>Add presentation</div>
     <input type="hidden" id="pres-sid">
+    <div class="form-row hidden" id="pres-study-row">
+      <label>Study *</label>
+      <select id="pres-study-sel"></select>
+    </div>
     <div class="form-row">
       <label>Type</label>
       <select id="pres-type">
@@ -673,11 +677,15 @@ window.updateSubmission=function(sid,field,val){
 window.openAddPresGlobal=function(){
   const list=getStudies();
   if(!list.length){alert('Please add a study first.');return;}
-  document.getElementById('pres-sid').value=list[0].id;
+  const sel=document.getElementById('pres-study-sel');
+  sel.innerHTML=list.map(s=>`<option value="${s.id}">${esc(s.title)}</option>`).join('');
+  document.getElementById('pres-study-row').classList.remove('hidden');
+  document.getElementById('pres-sid').value='';
   document.getElementById('pres-overlay').classList.remove('hidden');
   document.getElementById('pres-congress').focus();
 }
 window.openAddPres=function(sid){
+  document.getElementById('pres-study-row').classList.add('hidden');
   document.getElementById('pres-sid').value=sid;
   document.getElementById('pres-overlay').classList.remove('hidden');
   document.getElementById('pres-congress').focus();
@@ -688,7 +696,8 @@ window.closeAddPres=function(){
   document.getElementById('pres-type').value='oral';
 }
 window.savePresentation=function(){
-  const sid=document.getElementById('pres-sid').value;
+  const sidField=document.getElementById('pres-sid').value;
+  const sid=sidField||document.getElementById('pres-study-sel').value;
   const congress=document.getElementById('pres-congress').value.trim();
   if(!congress){document.getElementById('pres-congress').focus();return;}
   const s=getStudies().find(x=>x.id===sid);

@@ -122,6 +122,7 @@ input[type=checkbox]{width:auto;cursor:pointer}
 .pres-oral{background:var(--purple-bg);color:var(--purple-tx)}
 .pres-abstract{background:var(--teal-bg);color:var(--teal-tx)}
 .pres-poster{background:var(--amber-bg);color:var(--amber-tx)}
+.chip{font-size:11px;padding:2px 8px;border-radius:10px;display:inline-flex;align-items:center;gap:4px}
 .sync-dot{width:7px;height:7px;border-radius:50%;background:#639922;display:inline-block;animation:pulse 2s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 .loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;color:var(--text2);font-size:14px;gap:10px}
@@ -169,13 +170,17 @@ input[type=checkbox]{width:auto;cursor:pointer}
 
   <div class="sec-hd">
     <div class="sec-lbl">Studies</div>
-    <div style="display:flex;gap:8px">
-      <button class="btn btn-sm" onclick="openAddPresGlobal()" style="border-color:var(--purple-tx);color:var(--purple-tx)"><i class="ti ti-presentation"></i> Add presentation</button>
-      <button class="btn btn-sm btn-primary" onclick="addStudy()"><i class="ti ti-plus"></i> Add study</button>
-    </div>
+    <button class="btn btn-sm btn-primary" onclick="addStudy()"><i class="ti ti-plus"></i> Add study</button>
   </div>
 
   <div id="study-list"></div>
+
+  <div class="sec-hd" style="margin-top:2rem">
+    <div class="sec-lbl">Abstract / Oral presentations</div>
+    <button class="btn btn-sm" onclick="openAddPresGlobal()" style="border-color:var(--purple-tx);color:var(--purple-tx)"><i class="ti ti-plus"></i> Add presentation</button>
+  </div>
+
+  <div class="card" id="presentations-list"></div>
 </div>
 
 </div>
@@ -410,9 +415,40 @@ function renderStudies(){
   const el=document.getElementById('study-list');
   if(!list.length){
     el.innerHTML='<div style="text-align:center;padding:3rem 1rem;color:var(--text3)"><i class="ti ti-book-2" style="font-size:32px;display:block;margin-bottom:10px"></i>No studies yet. Click "Add study" to get started.</div>';
+  } else {
+    el.innerHTML=list.map(s=>renderStudyCard(s)).join('');
+  }
+  renderPresentations();
+}
+
+function renderPresentations(){
+  const list=getStudies();
+  const el=document.getElementById('presentations-list');
+  if(!el) return;
+  const all=[];
+  list.forEach(s=>{
+    (s.presentations||[]).forEach((p,pi)=>{
+      all.push({...p, studyId:s.id, studyTitle:s.title, pIndex:pi});
+    });
+  });
+  all.sort((a,b)=>(b.year||'').localeCompare(a.year||''));
+  if(!all.length){
+    el.innerHTML='<div style="text-align:center;padding:2rem 1rem;color:var(--text3)"><i class="ti ti-microphone-off" style="font-size:28px;display:block;margin-bottom:8px"></i>No presentations yet.</div>';
     return;
   }
-  el.innerHTML=list.map(s=>renderStudyCard(s)).join('');
+  el.innerHTML=all.map(p=>`
+    <div class="pres-item">
+      <span class="pres-year">${esc(p.year)}</span>
+      <div class="pres-info">
+        <div class="pres-congress">${esc(p.congress)}</div>
+        ${p.description?`<div class="pres-desc">${esc(p.description)}</div>`:''}
+        <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:4px">
+          <span class="pres-type pres-${p.type}">${p.type.charAt(0).toUpperCase()+p.type.slice(1)}</span>
+          <span class="chip" style="background:var(--surface2);color:var(--text2)"><i class="ti ti-book-2" style="font-size:10px"></i> ${esc(p.studyTitle)}</span>
+        </div>
+      </div>
+      <button class="btn btn-danger btn-sm" onclick="deletePres('${p.studyId}',${p.pIndex})" title="Remove"><i class="ti ti-trash"></i></button>
+    </div>`).join('');
 }
 
 function renderStudyCard(s){
@@ -579,31 +615,6 @@ function renderStudyCard(s){
           <div style="margin-top:8px">
             <input type="text" placeholder="Revision notes" value="${esc(s.submission.revisionNotes)}" style="font-size:12px;padding:5px 8px" onblur="updateSubmission('${s.id}','revisionNotes',this.value)">
           </div>`:''}
-        </div>
-      </div>
-
-      <!-- PRESENTATIONS -->
-      <div class="pipe-section">
-        <div class="pipe-hd">
-          <i class="ti ti-presentation" style="font-size:16px;color:var(--text2)"></i>
-          <span class="pipe-hd-title">Abstract / Oral presentations</span>
-          <span style="font-size:11px;color:var(--text2)">${s.presentations.length} presentation${s.presentations.length!==1?'s':''}</span>
-          <button class="btn btn-sm btn-primary" style="margin-left:auto" onclick="event.stopPropagation();openAddPres('${s.id}')"><i class="ti ti-plus"></i> Add</button>
-        </div>
-        <div class="pipe-body">
-          ${s.presentations.length===0
-            ?'<div style="text-align:center;padding:1rem;color:var(--text3);font-size:13px"><i class="ti ti-microphone-off" style="display:block;font-size:20px;margin-bottom:6px"></i>No presentations yet</div>'
-            :s.presentations.map((p,pi)=>`
-          <div class="pres-item">
-            <span class="pres-year">${esc(p.year)}</span>
-            <div class="pres-info">
-              <div class="pres-congress">${esc(p.congress)}</div>
-              ${p.description?`<div class="pres-desc">${esc(p.description)}</div>`:''}
-              <span class="pres-type pres-${p.type}">${p.type.charAt(0).toUpperCase()+p.type.slice(1)}</span>
-            </div>
-            <button class="btn btn-danger btn-sm" onclick="deletePres('${s.id}',${pi})" title="Remove"><i class="ti ti-trash"></i></button>
-          </div>`).join('')
-          }
         </div>
       </div>
 

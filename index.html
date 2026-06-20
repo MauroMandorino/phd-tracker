@@ -47,9 +47,9 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .btn-danger:hover{background:rgba(226,75,74,.08)}
 .btn-ghost{border-color:transparent;color:var(--text2)}
 .btn-ghost:hover{background:var(--surface2);color:var(--text)}
+.btn[disabled]{opacity:.5;cursor:not-allowed}
 input,select,textarea{width:100%;padding:8px 12px;border:0.5px solid var(--border2);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font-family:inherit;font-size:14px;outline:none}
 input:focus,select:focus,textarea:focus{border-color:var(--blue-tx);box-shadow:0 0 0 3px rgba(24,95,165,.15)}
-input[type=file]{padding:6px 10px;font-size:13px}
 input[type=checkbox]{width:auto;cursor:pointer}
 .badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;white-space:nowrap}
 .b-todo{background:var(--blue-bg);color:var(--blue-tx)}
@@ -70,8 +70,48 @@ input[type=checkbox]{width:auto;cursor:pointer}
 .pin-row{display:flex;gap:8px;margin-top:10px}
 .pin-row input{max-width:180px;flex:0 0 auto}
 .alert{padding:8px 12px;border-radius:var(--radius-sm);font-size:13px;margin-top:8px}
-
-/* Presentation items */
+.alert-err{background:rgba(226,75,74,.1);color:var(--red);border:0.5px solid rgba(226,75,74,.3)}
+.alert-ok{background:var(--green-bg);color:var(--green-tx)}
+.top-bar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.75rem}
+.sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.sec-lbl{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3)}
+.study-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:1rem;overflow:hidden}
+.study-header{padding:1rem 1.25rem;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:0.5px solid var(--border)}
+.study-header:hover{background:var(--surface2)}
+.study-title-wrap{flex:1;min-width:0}
+.study-title-input{font-size:15px;font-weight:600;border:none;background:transparent;padding:0;outline:none;width:100%;color:var(--text)}
+.study-title-input:focus{border-bottom:1.5px solid var(--blue-tx)}
+.study-body{padding:1.25rem}
+.pipeline{display:flex;flex-direction:column;gap:1rem}
+.pipe-section{border:0.5px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
+.pipe-hd{display:flex;align-items:center;gap:10px;padding:.75rem 1rem;background:var(--surface2)}
+.pipe-hd-title{font-size:13px;font-weight:600;flex:1}
+.pipe-body{padding:.75rem 1rem}
+.status-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.status-row label{font-size:13px;color:var(--text2)}
+.status-row select{width:auto;font-size:13px;padding:4px 8px}
+.date-row{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
+.date-row label{font-size:12px;color:var(--text2)}
+.date-row input[type=date]{width:auto;font-size:12px;padding:4px 8px}
+.paper-sections{display:flex;flex-direction:column;gap:6px;margin-top:10px}
+.tick-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:0.5px solid var(--border)}
+.tick-row:last-child{border-bottom:none}
+.tick-label{flex:1;font-size:13px;color:var(--text2)}
+.tick-label.checked{color:var(--green-tx);font-weight:500}
+.dataset-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.file-chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:4px 10px;border-radius:10px;background:var(--blue-bg);color:var(--blue-tx);text-decoration:none}
+.file-chip:hover{opacity:.8}
+.journal-row{display:flex;align-items:center;gap:8px;margin-top:8px}
+.journal-row label{font-size:12px;color:var(--text2);white-space:nowrap}
+.journal-row input{font-size:12px;padding:4px 8px}
+.prog-bar{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-top:6px}
+.prog-fill{height:100%;background:#639922;border-radius:3px;transition:width .3s}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:200;padding:1rem}
+.modal{background:var(--surface);border-radius:var(--radius);padding:1.5rem;width:100%;max-width:400px;border:0.5px solid var(--border)}
+.modal-title{font-size:16px;font-weight:600;margin-bottom:1.25rem}
+.form-row{margin-bottom:1rem}
+.form-row label{display:block;font-size:13px;color:var(--text2);margin-bottom:5px}
+.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
 .pres-item{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:0.5px solid var(--border)}
 .pres-item:last-child{border-bottom:none}
 .pres-year{font-size:12px;font-weight:700;color:var(--blue-tx);background:var(--blue-bg);padding:2px 8px;border-radius:8px;white-space:nowrap;flex-shrink:0;margin-top:1px}
@@ -82,63 +122,22 @@ input[type=checkbox]{width:auto;cursor:pointer}
 .pres-oral{background:var(--purple-bg);color:var(--purple-tx)}
 .pres-abstract{background:var(--teal-bg);color:var(--teal-tx)}
 .pres-poster{background:var(--amber-bg);color:var(--amber-tx)}
-
-.alert-err{background:rgba(226,75,74,.1);color:var(--red);border:0.5px solid rgba(226,75,74,.3)}
-.top-bar{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:1.75rem}
-.sec-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.sec-lbl{font-size:11px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--text3)}
-/* Study card */
-.study-card{background:var(--surface);border:0.5px solid var(--border);border-radius:var(--radius);margin-bottom:1rem;overflow:hidden}
-.study-header{padding:1rem 1.25rem;display:flex;align-items:center;gap:10px;cursor:pointer;border-bottom:0.5px solid var(--border)}
-.study-header:hover{background:var(--surface2)}
-.study-title-wrap{flex:1;min-width:0}
-.study-title{font-size:15px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.study-title-input{font-size:15px;font-weight:600;border:none;background:transparent;padding:0;outline:none;width:100%;color:var(--text)}
-.study-title-input:focus{border-bottom:1.5px solid var(--blue-tx)}
-.study-body{padding:1.25rem}
-/* Pipeline */
-.pipeline{display:flex;flex-direction:column;gap:1rem}
-.pipe-section{border:0.5px solid var(--border);border-radius:var(--radius-sm);overflow:hidden}
-.pipe-hd{display:flex;align-items:center;gap:10px;padding:.75rem 1rem;background:var(--surface2)}
-.pipe-hd-title{font-size:13px;font-weight:600;flex:1}
-.pipe-body{padding:.75rem 1rem}
-/* Status row */
-.status-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-.status-row label{font-size:13px;color:var(--text2)}
-.status-row select{width:auto;font-size:13px;padding:4px 8px}
-.date-row{display:flex;align-items:center;gap:8px;margin-top:8px;flex-wrap:wrap}
-.date-row label{font-size:12px;color:var(--text2)}
-.date-row input[type=date]{width:auto;font-size:12px;padding:4px 8px}
-/* Paper ticks */
-.paper-sections{display:flex;flex-direction:column;gap:6px;margin-top:10px}
-.tick-row{display:flex;align-items:center;gap:10px;padding:6px 0;border-bottom:0.5px solid var(--border)}
-.tick-row:last-child{border-bottom:none}
-.tick-label{flex:1;font-size:13px;color:var(--text2)}
-.tick-label.checked{color:var(--green-tx);font-weight:500}
-/* Dataset chip */
-.dataset-area{margin-top:.75rem;padding-top:.75rem;border-top:0.5px solid var(--border)}
-.file-chip{display:inline-flex;align-items:center;gap:5px;font-size:12px;padding:3px 10px;border-radius:10px;background:var(--blue-bg);color:var(--blue-tx)}
-/* Journal input */
-.journal-row{display:flex;align-items:center;gap:8px;margin-top:8px}
-.journal-row label{font-size:12px;color:var(--text2);white-space:nowrap}
-.journal-row input{font-size:12px;padding:4px 8px}
-/* Progress bar */
-.prog-bar{height:5px;background:var(--surface2);border-radius:3px;overflow:hidden;margin-top:6px}
-.prog-fill{height:100%;background:#639922;border-radius:3px;transition:width .3s}
-/* Overlay / modal */
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,.4);display:flex;align-items:center;justify-content:center;z-index:200;padding:1rem}
-.modal{background:var(--surface);border-radius:var(--radius);padding:1.5rem;width:100%;max-width:400px;border:0.5px solid var(--border)}
-.modal-title{font-size:16px;font-weight:600;margin-bottom:1.25rem}
-.form-row{margin-bottom:1rem}
-.form-row label{display:block;font-size:13px;color:var(--text2);margin-bottom:5px}
-.modal-footer{display:flex;gap:8px;justify-content:flex-end;margin-top:1.25rem}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#639922;display:inline-block;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.loading-screen{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;color:var(--text2);font-size:14px;gap:10px}
+.spinner{width:24px;height:24px;border:3px solid var(--border);border-top-color:var(--blue-tx);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 <body>
 <div class="container">
 
-<!-- LOGIN -->
-<div id="screen-home">
+<div id="loading" class="loading-screen">
+  <div class="spinner"></div>
+  <div>Connecting to database...</div>
+</div>
+
+<div id="screen-home" class="hidden">
   <div style="margin-bottom:2rem">
     <div class="logo"><i class="ti ti-school" style="font-size:22px"></i> PhD Project Tracker</div>
     <div class="sub">Select your university and enter your PIN to access</div>
@@ -156,14 +155,16 @@ input[type=checkbox]{width:auto;cursor:pointer}
   </div>
 </div>
 
-<!-- DASHBOARD -->
 <div id="screen-dash" class="hidden">
   <div class="top-bar">
     <div>
       <div class="logo" id="dash-uni-name"></div>
       <div class="sub" id="dash-student"></div>
     </div>
-    <button class="btn btn-sm" onclick="logout()"><i class="ti ti-logout"></i> Log out</button>
+    <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+      <button class="btn btn-sm" onclick="logout()"><i class="ti ti-logout"></i> Log out</button>
+      <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;gap:4px"><span class="sync-dot"></span> Synced</span>
+    </div>
   </div>
 
   <div class="sec-hd">
@@ -179,7 +180,6 @@ input[type=checkbox]{width:auto;cursor:pointer}
 
 </div>
 
-<!-- ADD PRESENTATION MODAL -->
 <div class="overlay hidden" id="pres-overlay">
   <div class="modal">
     <div class="modal-title"><i class="ti ti-presentation" style="font-size:18px;vertical-align:-3px;margin-right:6px"></i>Add presentation</div>
@@ -202,7 +202,7 @@ input[type=checkbox]{width:auto;cursor:pointer}
     </div>
     <div class="form-row">
       <label>Description (title / abstract)</label>
-      <textarea id="pres-desc" rows="3" placeholder="Presentation title or short description…"></textarea>
+      <textarea id="pres-desc" rows="3" placeholder="Presentation title or short description..."></textarea>
     </div>
     <div class="modal-footer">
       <button class="btn btn-sm" onclick="closeAddPres()">Cancel</button>
@@ -211,11 +211,30 @@ input[type=checkbox]{width:auto;cursor:pointer}
   </div>
 </div>
 
-<!-- Confirm delete overlay -->
+<div class="overlay hidden" id="dataset-overlay">
+  <div class="modal">
+    <div class="modal-title"><i class="ti ti-database" style="font-size:18px;vertical-align:-3px;margin-right:6px"></i>Attach dataset</div>
+    <input type="hidden" id="dataset-sid">
+    <div class="form-row">
+      <label>Dataset name</label>
+      <input type="text" id="dataset-name" placeholder="e.g. Patient cohort 2024.xlsx">
+    </div>
+    <div class="form-row">
+      <label>Google Drive link *</label>
+      <input type="text" id="dataset-link" placeholder="https://drive.google.com/...">
+      <div style="font-size:11px;color:var(--text3);margin-top:5px">Upload the file to Google Drive, set sharing to "Anyone with the link", then paste the link here.</div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-sm" onclick="closeDatasetModal()">Cancel</button>
+      <button class="btn btn-sm btn-primary" onclick="saveDataset()"><i class="ti ti-check"></i> Save</button>
+    </div>
+  </div>
+</div>
+
 <div class="overlay hidden" id="confirm-overlay">
   <div class="modal">
     <div class="modal-title"><i class="ti ti-alert-triangle" style="color:var(--red);vertical-align:-2px;margin-right:6px"></i>Delete study?</div>
-    <div style="font-size:14px;color:var(--text2);margin-bottom:1.25rem">This will permanently delete this study and all its data.</div>
+    <div style="font-size:14px;color:var(--text2);margin-bottom:1.25rem">This will permanently delete this study and all its data for everyone.</div>
     <div class="modal-footer">
       <button class="btn btn-sm" onclick="closeConfirm()">Cancel</button>
       <button class="btn btn-sm btn-danger" id="confirm-ok">Delete</button>
@@ -223,43 +242,81 @@ input[type=checkbox]{width:auto;cursor:pointer}
   </div>
 </div>
 
-<script>
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getFirestore, doc, getDoc, setDoc, onSnapshot
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAdKgOZILgA_r6axtQKWWLqVaDBUkp6OKE",
+  authDomain: "phd-tracker-22d93.firebaseapp.com",
+  projectId: "phd-tracker-22d93",
+  storageBucket: "phd-tracker-22d93.firebasestorage.app",
+  messagingSenderId: "252875836800",
+  appId: "1:252875836800:web:dc6575ffab316da3744565"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const UNIS=[
-  {id:'parma',    name:'Parma',           city:'Parma',    student:'Salvatore Mazzei',    pin:'80385',color:'#185FA5',bg:'#E6F1FB',itx:'#0C447C',init:'PA'},
-  {id:'foro',     name:'Foro Italico',    city:'Rome',     student:'Valerio Persichetti', pin:'54741',color:'#0F6E56',bg:'#E1F5EE',itx:'#085041',init:'FI'},
-  {id:'valencia', name:'Valencia',        city:'Valencia', student:'Costanza Gavioli',    pin:'76105',color:'#3C3489',bg:'#EEEDFE',itx:'#26215C',init:'VA'},
-  {id:'verona',   name:'Verona',          city:'Verona',   student:'Lorenzo Di Girolamo', pin:'25636',color:'#993C1D',bg:'#FAECE7',itx:'#4A1B0C',init:'VR'},
-  {id:'chieti',   name:'Chieti/Pescara',  city:'Chieti',   student:'Giorgia Silvestri',   pin:'20567',color:'#639922',bg:'#EAF3DE',itx:'#27500A',init:'CH'}
+  {id:'parma',    name:'Parma',          city:'Parma',    student:'Salvatore Mazzei',    pin:'80385',color:'#185FA5',bg:'#E6F1FB',itx:'#0C447C',init:'PA'},
+  {id:'foro',     name:'Foro Italico',   city:'Rome',     student:'Valerio Persichetti', pin:'54741',color:'#0F6E56',bg:'#E1F5EE',itx:'#085041',init:'FI'},
+  {id:'valencia', name:'Valencia',       city:'Valencia', student:'Costanza Gavioli',    pin:'76105',color:'#3C3489',bg:'#EEEDFE',itx:'#26215C',init:'VA'},
+  {id:'verona',   name:'Verona',         city:'Verona',   student:'Lorenzo Di Girolamo', pin:'25636',color:'#993C1D',bg:'#FAECE7',itx:'#4A1B0C',init:'VR'},
+  {id:'chieti',   name:'Chieti/Pescara', city:'Chieti',   student:'Giorgia Silvestri',   pin:'20567',color:'#639922',bg:'#EAF3DE',itx:'#27500A',init:'CH'}
 ];
 
-const DATA_KEY='phd_v3';
 let current=null,selUni=null;
-let db=JSON.parse(localStorage.getItem(DATA_KEY)||'{}');
-
-function save(){try{localStorage.setItem(DATA_KEY,JSON.stringify(db));}catch(e){}}
-
-function getStudies(){return db[current.id]||(db[current.id]=[]);}
+let studies=[]; // current uni's studies, synced live
+let unsubscribe=null;
 
 function newStudy(title='New Study'){
   return{
-    id:'s'+Date.now(),
+    id:'s'+Date.now()+Math.floor(Math.random()*1000),
     title,
     open:true,
     objectives:'',
-    dataset:'',
+    dataset:{name:'',link:''},
     dataCollection:{status:'to_start',startDate:'',notes:''},
     dataAnalysis:{status:'to_start',startDate:'',notes:''},
-    paperWriting:{
-      intro:false,methods:false,results:false,discussion:false,
-      status:'not_started'
-    },
+    paperWriting:{intro:false,methods:false,results:false,discussion:false,status:'not_started'},
     submission:{status:'not_submitted',journal:'',revisionNotes:''},
     presentations:[]
   };
 }
 
-// ── LOGIN ──
-function renderHome(){
+async function loadUniData(uniId){
+  const ref = doc(db, "universities", uniId);
+  const snap = await getDoc(ref);
+  if(!snap.exists()){
+    await setDoc(ref, {studies: []});
+    return [];
+  }
+  return snap.data().studies || [];
+}
+
+function listenUniData(uniId){
+  if(unsubscribe) unsubscribe();
+  const ref = doc(db, "universities", uniId);
+  unsubscribe = onSnapshot(ref, (snap)=>{
+    if(snap.exists()){
+      studies = snap.data().studies || [];
+      renderStudies();
+    }
+  });
+}
+
+async function persist(){
+  if(!current) return;
+  const ref = doc(db, "universities", current.id);
+  await setDoc(ref, {studies}, {merge:true});
+}
+
+function getStudies(){return studies;}
+
+window.renderHome=function(){
   document.getElementById('uni-list').innerHTML=UNIS.map(u=>`
     <div class="uni-card" id="uc-${u.id}" onclick="selectUni('${u.id}')">
       <div class="uni-init" style="background:${u.bg};color:${u.itx}">${u.init}</div>
@@ -268,7 +325,7 @@ function renderHome(){
     </div>`).join('');
 }
 
-function selectUni(id){
+window.selectUni=function(id){
   selUni=id;
   UNIS.forEach(u=>{
     const el=document.getElementById('uc-'+u.id);
@@ -278,25 +335,26 @@ function selectUni(id){
   document.getElementById('pin-input').focus();
 }
 
-function checkPin(){
+window.checkPin=function(){
   const pin=document.getElementById('pin-input').value.trim();
   const u=UNIS.find(x=>x.pin===pin&&(!selUni||x.id===selUni));
   document.getElementById('pin-error').classList.toggle('hidden',!!u);
   if(u) openDash(u);
 }
 
-function openDash(u){
+async function openDash(u){
   current=u;
-  if(!db[u.id]) db[u.id]=[];
   document.getElementById('screen-home').classList.add('hidden');
   document.getElementById('screen-dash').classList.remove('hidden');
   document.getElementById('dash-uni-name').innerHTML=`<i class="ti ti-school" style="color:${u.color}"></i> University of ${u.name}`;
   document.getElementById('dash-student').textContent=u.student+' — Academic Year 2024/25';
-  renderStudies();
+  document.getElementById('study-list').innerHTML='<div style="text-align:center;padding:2rem;color:var(--text3)"><div class="spinner" style="margin:0 auto"></div></div>';
+  listenUniData(u.id);
 }
 
-function logout(){
-  current=selUni=null;
+window.logout=function(){
+  if(unsubscribe){unsubscribe();unsubscribe=null;}
+  current=selUni=null;studies=[];
   document.getElementById('screen-dash').classList.add('hidden');
   document.getElementById('screen-home').classList.remove('hidden');
   document.getElementById('pin-input').value='';
@@ -304,33 +362,24 @@ function logout(){
   UNIS.forEach(u=>{const el=document.getElementById('uc-'+u.id);el.classList.remove('sel');el.style.borderColor='';});
 }
 
-// ── STUDIES ──
-function addStudy(){
+window.addStudy=function(){
   const s=newStudy('Study '+(getStudies().length+1));
-  getStudies().push(s);
-  save();
-  renderStudies();
-  // auto-focus title
-  setTimeout(()=>{
-    const inp=document.getElementById('title-'+s.id);
-    if(inp){inp.select();}
-  },50);
+  studies.push(s);
+  persist();
 }
 
-function toggleStudy(id){
+window.toggleStudy=function(id){
   const s=getStudies().find(x=>x.id===id);
-  if(s){s.open=!s.open;save();renderStudies();}
+  if(s){s.open=!s.open;renderStudies();} // local-only UI state, no need to persist open/close
 }
 
-function deleteStudy(id){
+window.deleteStudy=function(id){
   openConfirm(()=>{
-    const list=getStudies();
-    const i=list.findIndex(x=>x.id===id);
-    if(i>-1){list.splice(i,1);save();renderStudies();}
+    const i=studies.findIndex(x=>x.id===id);
+    if(i>-1){studies.splice(i,1);persist();}
   });
 }
 
-// ── RENDER ──
 function statusBadge(s){
   const map={
     to_start:'<span class="badge b-todo"><i class="ti ti-clock"></i>To start</span>',
@@ -349,8 +398,7 @@ function statusBadge(s){
 }
 
 function paperProgress(s){
-  const sections=[s.intro,s.methods,s.results,s.discussion];
-  return sections.filter(Boolean).length;
+  return [s.intro,s.methods,s.results,s.discussion].filter(Boolean).length;
 }
 
 function renderStudies(){
@@ -366,6 +414,7 @@ function renderStudies(){
 function renderStudyCard(s){
   const open=s.open;
   const pp=paperProgress(s.paperWriting);
+  const ds=s.dataset||{name:'',link:''};
   return`
 <div class="study-card" id="sc-${s.id}">
   <div class="study-header" onclick="toggleStudy('${s.id}')">
@@ -378,11 +427,6 @@ function renderStudyCard(s){
         placeholder="Study title">
     </div>
     <div style="display:flex;align-items:center;gap:6px;flex-shrink:0" onclick="event.stopPropagation()">
-      ${s.dataset?`<span class="file-chip"><i class="ti ti-database" style="font-size:11px"></i>${esc(s.dataset)}</span>`:''}
-      <label class="btn btn-ghost btn-sm" title="Upload dataset" style="cursor:pointer;padding:4px 8px">
-        <i class="ti ti-upload"></i>
-        <input type="file" style="display:none" onchange="uploadDataset('${s.id}',this)">
-      </label>
       <button class="btn btn-danger btn-sm" onclick="deleteStudy('${s.id}')" title="Delete study"><i class="ti ti-trash"></i></button>
     </div>
   </div>
@@ -395,7 +439,26 @@ function renderStudyCard(s){
         <span class="pipe-hd-title">Objectives of the study</span>
       </div>
       <div class="pipe-body">
-        <textarea rows="3" placeholder="Describe the aims and objectives of this study…" style="font-size:13px;resize:vertical;line-height:1.5" onblur="updateObjectives('${s.id}',this.value)">${esc(s.objectives||'')}</textarea>
+        <textarea rows="3" placeholder="Describe the aims and objectives of this study..." style="font-size:13px;resize:vertical;line-height:1.5" onblur="updateObjectives('${s.id}',this.value)">${esc(s.objectives||'')}</textarea>
+      </div>
+    </div>
+
+    <!-- DATASET -->
+    <div class="pipe-section" style="margin-bottom:1rem">
+      <div class="pipe-hd">
+        <i class="ti ti-database" style="font-size:16px;color:var(--text2)"></i>
+        <span class="pipe-hd-title">Dataset</span>
+      </div>
+      <div class="pipe-body">
+        <div class="dataset-row">
+          ${ds.link?`
+            <a href="${esc(ds.link)}" target="_blank" rel="noopener" class="file-chip"><i class="ti ti-external-link" style="font-size:11px"></i>${esc(ds.name||'Dataset')}</a>
+            <button class="btn btn-sm" onclick="openDatasetModal('${s.id}')"><i class="ti ti-edit"></i> Edit</button>
+            <button class="btn btn-danger btn-sm" onclick="removeDataset('${s.id}')"><i class="ti ti-trash"></i></button>
+          `:`
+            <button class="btn btn-sm btn-primary" onclick="openDatasetModal('${s.id}')"><i class="ti ti-link"></i> Attach Google Drive link</button>
+          `}
+        </div>
       </div>
     </div>
 
@@ -545,69 +608,86 @@ function renderStudyCard(s){
 </div>`;
 }
 
-// ── FIELD UPDATES ──
-function updateObjectives(sid,val){
-  const s=getStudies().find(x=>x.id===sid);
-  if(s){s.objectives=val;save();}
-}
-
-function saveTitle(id,val){
+window.saveTitle=function(id,val){
   const s=getStudies().find(x=>x.id===id);
-  if(s){s.title=val.trim()||'Untitled study';save();}
+  if(s){s.title=val.trim()||'Untitled study';persist();}
 }
 
-function uploadDataset(id,input){
-  const s=getStudies().find(x=>x.id===id);
-  if(s&&input.files[0]){s.dataset=input.files[0].name;save();renderStudies();}
-}
-
-function updateField(sid,section,field,val){
+window.updateObjectives=function(sid,val){
   const s=getStudies().find(x=>x.id===sid);
-  if(s){s[section][field]=val;save();renderStudies();}
+  if(s){s.objectives=val;persist();}
 }
 
-function updatePaperStatus(sid,val){
+window.openDatasetModal=function(sid){
   const s=getStudies().find(x=>x.id===sid);
-  if(s){s.paperWriting.status=val;save();renderStudies();}
+  document.getElementById('dataset-sid').value=sid;
+  document.getElementById('dataset-name').value=s&&s.dataset?s.dataset.name||'':'';
+  document.getElementById('dataset-link').value=s&&s.dataset?s.dataset.link||'':'';
+  document.getElementById('dataset-overlay').classList.remove('hidden');
+  document.getElementById('dataset-name').focus();
+}
+window.closeDatasetModal=function(){
+  document.getElementById('dataset-overlay').classList.add('hidden');
+}
+window.saveDataset=function(){
+  const sid=document.getElementById('dataset-sid').value;
+  const name=document.getElementById('dataset-name').value.trim();
+  const link=document.getElementById('dataset-link').value.trim();
+  if(!link){document.getElementById('dataset-link').focus();return;}
+  const s=getStudies().find(x=>x.id===sid);
+  if(s){s.dataset={name:name||'Dataset',link};persist();}
+  closeDatasetModal();
+}
+window.removeDataset=function(sid){
+  const s=getStudies().find(x=>x.id===sid);
+  if(s){s.dataset={name:'',link:''};persist();}
 }
 
-function tickSection(sid,sec,val){
+window.updateField=function(sid,section,field,val){
+  const s=getStudies().find(x=>x.id===sid);
+  if(s){s[section][field]=val;persist();}
+}
+
+window.updatePaperStatus=function(sid,val){
+  const s=getStudies().find(x=>x.id===sid);
+  if(s){s.paperWriting.status=val;persist();}
+}
+
+window.tickSection=function(sid,sec,val){
   const s=getStudies().find(x=>x.id===sid);
   if(s){
     s.paperWriting[sec]=val;
-    const allDone=[s.paperWriting.intro,s.paperWriting.methods,s.paperWriting.results,s.paperWriting.discussion].every(Boolean);
-    if(allDone) s.paperWriting.status='completed';
-    else if([s.paperWriting.intro,s.paperWriting.methods,s.paperWriting.results,s.paperWriting.discussion].some(Boolean)) s.paperWriting.status='in_progress';
-    save();renderStudies();
+    const vals=[s.paperWriting.intro,s.paperWriting.methods,s.paperWriting.results,s.paperWriting.discussion];
+    if(vals.every(Boolean)) s.paperWriting.status='completed';
+    else if(vals.some(Boolean)) s.paperWriting.status='in_progress';
+    else s.paperWriting.status='not_started';
+    persist();
   }
 }
 
-function updateSubmission(sid,field,val){
+window.updateSubmission=function(sid,field,val){
   const s=getStudies().find(x=>x.id===sid);
-  if(s){s.submission[field]=val;save();renderStudies();}
+  if(s){s.submission[field]=val;persist();}
 }
 
-
-// ── PRESENTATIONS ──
-function openAddPresGlobal(){
-  const studies=getStudies();
-  if(!studies.length){alert('Please add a study first.');return;}
-  document.getElementById('pres-sid').value='';
+window.openAddPresGlobal=function(){
+  const list=getStudies();
+  if(!list.length){alert('Please add a study first.');return;}
+  document.getElementById('pres-sid').value=list[0].id;
   document.getElementById('pres-overlay').classList.remove('hidden');
   document.getElementById('pres-congress').focus();
 }
-
-function openAddPres(sid){
+window.openAddPres=function(sid){
   document.getElementById('pres-sid').value=sid;
   document.getElementById('pres-overlay').classList.remove('hidden');
   document.getElementById('pres-congress').focus();
 }
-function closeAddPres(){
+window.closeAddPres=function(){
   document.getElementById('pres-overlay').classList.add('hidden');
   ['pres-congress','pres-desc','pres-year'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('pres-type').value='oral';
 }
-function savePresentation(){
+window.savePresentation=function(){
   const sid=document.getElementById('pres-sid').value;
   const congress=document.getElementById('pres-congress').value.trim();
   if(!congress){document.getElementById('pres-congress').focus();return;}
@@ -619,25 +699,29 @@ function savePresentation(){
       description: document.getElementById('pres-desc').value.trim(),
       type: document.getElementById('pres-type').value
     });
-    save();renderStudies();
+    persist();
   }
   closeAddPres();
 }
-function deletePres(sid,pi){
+window.deletePres=function(sid,pi){
   const s=getStudies().find(x=>x.id===sid);
-  if(s){s.presentations.splice(pi,1);save();renderStudies();}
+  if(s){s.presentations.splice(pi,1);persist();}
 }
 
-// ── CONFIRM MODAL ──
 let confirmCb=null;
 function openConfirm(cb){confirmCb=cb;document.getElementById('confirm-overlay').classList.remove('hidden');}
-function closeConfirm(){confirmCb=null;document.getElementById('confirm-overlay').classList.add('hidden');}
+window.closeConfirm=function(){confirmCb=null;document.getElementById('confirm-overlay').classList.add('hidden');}
 document.getElementById('confirm-ok').onclick=()=>{if(confirmCb)confirmCb();closeConfirm();};
 
 function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
 
 document.getElementById('pin-input').addEventListener('keydown',e=>{if(e.key==='Enter')checkPin();});
+
+// init
+document.getElementById('loading').classList.add('hidden');
+document.getElementById('screen-home').classList.remove('hidden');
 renderHome();
+window.renderStudies = renderStudies;
 </script>
 </body>
 </html>
